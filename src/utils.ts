@@ -6,6 +6,7 @@ const markdownit = require('markdown-it');
 export function retrieveCodes(files) {
     return files.reduce((accum, f) => {
         const p = path.parse(f);
+/**
         if (p.ext === '.pu') {
             return accum.concat({
                 name: p.name,
@@ -18,6 +19,31 @@ export function retrieveCodes(files) {
             const content = fs.readFileSync(f).toString();
             return accum.concat(puFromMd(content));
         }
+*/
+        switch( p.ext ) { 
+        case '.pu': 
+        case '.puml':
+        case '.plantuml': 
+        case '.iuml': 
+            return accum.concat({
+                name: p.name,
+                // TODO: files may have been deleted.
+                code: fs.readFileSync(f).toString(),
+            });
+          break; 
+
+        case '.md':
+            // TODO: files may have been deleted.
+            const content = fs.readFileSync(f).toString();
+            return accum.concat(puFromMd(content));
+          break; 
+
+        default: { 
+          //statements; 
+          break; 
+        } 
+    } 
+
         return p.ext === '.md' ? accum.concat(f) : accum
     }, []);
 }
