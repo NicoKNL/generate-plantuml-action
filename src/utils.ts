@@ -6,6 +6,7 @@ const markdownit = require('markdown-it');
 export function retrieveCodes(files) {
     return files.reduce((accum, f) => {
         const p = path.parse(f);
+        console.log(p.ext);
 /**
         if (p.ext === '.pu') {
             return accum.concat({
